@@ -1,0 +1,56 @@
+body {
+    background-color: whitesmoke
+    font-family: Helvetica, sans-serif;
+    }
+
+.row {
+  margin: 0 -5px;
+}
+
+.column {
+  float: left;
+  width: 25%;
+  padding: 0 10px;
+  background-color: blue;
+  color: whitesmoke;
+}
+choices-container {
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+button{
+
+}
+button:hover(
+
+)
+
+    .column {
+      float: left;
+      width: 25%;
+      padding: 0 10px;
+    }
+    
+    .row {margin: 0 -5px;}
+    
+    .row:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+    
+    .card {
+      box-shadow: 0 4px 8px 0 black (0, 0, 0, 0.2);
+      padding: 16px;
+      text-align: center;
+      background-color: #f1f1f1;
+    }
+
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+    display: block;
+    margin-bottom: 20px;
+  }
+}
