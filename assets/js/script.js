@@ -4,7 +4,7 @@ var option2El = document.querySelector("#option2");
 
 var indexCounter = 0;
 
-var teamWins = [{teamName:"team 1",wins:1},{teamName:"team 2",wins:2},{teamName:"team 3",wins:1}];
+var teamWins = [{teamName:"team 1",wins:1},{teamName:"team 2",wins:2},{teamName:"team 3",wins:1},{teamName:"team 4",wins:5},{teamName:"team 5",wins:1}];
 
 var loadFirstChoices = function(dataObj) {
     option1El.innerHTML=dataObj[0].teamName;
@@ -31,6 +31,11 @@ var correctAnswer = function(dataObj){
     }
 };
 
+var loadNextChoices = function(lastIndex,indexCount,dataObj) {
+    option1El.innerHTML = dataObj[lastIndex].teamName;
+    option2El.innerHTML = dataObj[indexCount+2].teamName;
+};
+
 var choiceHandler = function(event) {
     event.preventDefault();
 
@@ -39,8 +44,12 @@ var choiceHandler = function(event) {
     var choiceIndex = getDataObjIndex(choiceName,teamWins);
     if (correctIndex == choiceIndex) {
         console.log("correct");
+        loadNextChoices(correctIndex,indexCounter, teamWins);
     } else {
         console.log("incorrect");
+        loadFirstChoices(teamWins);
+        indexCounter = 0;
+        return;
     }
 
     indexCounter++;
