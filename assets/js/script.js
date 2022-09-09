@@ -19,19 +19,29 @@ var getDataObjIndex = function(name,dataObj) {
     }
 };
 
-var correctAnswer = function(){
-    
+var correctAnswer = function(dataObj){
+    var option1Name = document.querySelector("#option1").innerHTML;
+    var option2Name = document.querySelector("#option2").innerHTML;
+    var option1Index = getDataObjIndex(option1Name,dataObj);
+    var option2Index = getDataObjIndex(option2Name,dataObj);
+    if (dataObj[option1Index].wins>dataObj[option2Index].wins) {
+        return option1Index;
+    } else {
+        return option2Index;
+    }
 };
 
 var choiceHandler = function(event) {
     event.preventDefault();
 
-    var option1Name = document.querySelector("#option1").innerHTML;
-    var option2Name = document.querySelector("#option2").innerHTML;
-
+    var correctIndex = correctAnswer(teamWins);
     var choiceName = event.target.innerHTML;
     var choiceIndex = getDataObjIndex(choiceName,teamWins);
-    console.log(choiceIndex);
+    if (correctIndex == choiceIndex) {
+        console.log("correct");
+    } else {
+        console.log("incorrect");
+    }
 
     indexCounter++;
 };
