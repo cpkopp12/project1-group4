@@ -2,6 +2,7 @@ var optionContainerEl = document.querySelector("#choices-container");
 var option1El = document.querySelector("#option1");
 var option2El = document.querySelector("#option2");
 
+var indexCounter = 0;
 
 var teamWins = [{teamName:"team 1",wins:1},{teamName:"team 2",wins:2},{teamName:"team 3",wins:1}];
 
@@ -10,9 +11,29 @@ var loadFirstChoices = function(dataObj) {
     option2El.innerHTML=dataObj[1].teamName;
 };
 
+var getDataObjIndex = function(name,dataObj) {
+    for (i = 0; i < dataObj.length; i++) {
+        if (name == dataObj[i].teamName) {
+            return i;
+        }
+    }
+};
+
+var correctAnswer = function(){
+    
+};
+
 var choiceHandler = function(event) {
     event.preventDefault();
-    console.log(event.target);
+
+    var option1Name = document.querySelector("#option1").innerHTML;
+    var option2Name = document.querySelector("#option2").innerHTML;
+
+    var choiceName = event.target.innerHTML;
+    var choiceIndex = getDataObjIndex(choiceName,teamWins);
+    console.log(choiceIndex);
+
+    indexCounter++;
 };
 
 
