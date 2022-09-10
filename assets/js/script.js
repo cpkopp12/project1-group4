@@ -57,7 +57,8 @@ var choiceHandler = function(event) {
     console.log(correctIndex);
     var choiceName = event.target.parentElement.id; 
     console.log(choiceName);
-    if (correctIndex == choiceName) {
+    var choiceIndex = getDataObjIndex(choiceName,teamArray);
+    if (correctIndex == choiceIndex) {
         console.log("correct");
         loadNextChoices(correctIndex,indexCounter, teamArray);
     } else {
