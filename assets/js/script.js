@@ -38,9 +38,9 @@ var correctAnswer = function(dataObj){
     var option1Index = getDataObjIndex(option1Name,dataObj);
     var option2Index = getDataObjIndex(option2Name,dataObj);
     if (dataObj[option1Index].wins>dataObj[option2Index].wins) {
-        return option1Index;
+        return "option1";
     } else {
-        return option2Index;
+        return "option2";
     }
 };
 
@@ -53,11 +53,11 @@ var loadNextChoices = function(lastIndex,indexCount,dataObj) {
 
 var choiceHandler = function(event) {
     event.preventDefault();
-
     var correctIndex = correctAnswer(teamArray);
-    var choiceName = event.target.id;
-    var choiceIndex = getDataObjIndex(choiceName,teamArray);
-    if (correctIndex == choiceIndex) {
+    console.log(correctIndex);
+    var choiceName = event.target.parentElement.id; 
+    console.log(choiceName);
+    if (correctIndex == choiceName) {
         console.log("correct");
         loadNextChoices(correctIndex,indexCounter, teamArray);
     } else {
