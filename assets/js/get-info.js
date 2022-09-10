@@ -7,13 +7,13 @@ fetch("https://statsapi.web.nhl.com/api/v1/standings?season=20192020")
 .then(NHLData => extractNHLData(NHLData));
 
 function extractNHLData(data) {
-    console.log(data);
+    //console.log(data);
     var array = [];
     // Stores team name, wins and loses.
     for (i = 0; i < data.records.length; i++) {
         for (j = 0; j < data.records[i].teamRecords.length; j++) {
         array.push({
-          name: data.records[i].teamRecords[j].team.name,
+          teamName: data.records[i].teamRecords[j].team.name,
           wins: data.records[i].teamRecords[j].leagueRecord.wins,
           loses: data.records[i].teamRecords[j].leagueRecord.losses,
         })
@@ -23,7 +23,7 @@ function extractNHLData(data) {
 }
 var NHLArray = JSON.parse(localStorage.getItem("NHL Info"));
 // Left in console.log to show what data is stored to global variable NHLArray
-console.log(NHLArray);
+//console.log(NHLArray);
 
 // ---------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -44,7 +44,7 @@ fetch('https://api-football-v1.p.rapidapi.com/v3/standings?season=2020&league=39
 	.catch(err => console.error(err));
 
     function extractPLData(data) {
-        console.log(data);
+        //console.log(data);
         var array = [];
         // Stores Team Name, Wins, loses, draws, and points (Wins = 3, Draws = 1, Loses = 0)
         for (i = 0; i < data.response[0].league.standings[0].length; i++) {
@@ -56,10 +56,10 @@ fetch('https://api-football-v1.p.rapidapi.com/v3/standings?season=2020&league=39
               points: data.response[0].league.standings[0][i].points,
             })
         };
-       console.log(array);
+       //console.log(array);
        localStorage.setItem("PL Info", JSON.stringify(array));
     }
 
 var PLArray = JSON.parse(localStorage.getItem("PL Info"));
 // Left in console.log to show what data is stored to global variable PLArray
-console.log(PLArray);
+//console.log(PLArray);

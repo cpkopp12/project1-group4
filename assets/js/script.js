@@ -1,10 +1,15 @@
+//DOM els
 var optionContainerEl = document.querySelector("#choices-container");
 var option1El = document.querySelector("#option1");
 var option2El = document.querySelector("#option2");
-
+//keeps track of index for container handler function
 var indexCounter = 0;
-
-var teamWins = [{teamName:"team 1",wins:1},{teamName:"team 2",wins:2},{teamName:"team 3",wins:1},{teamName:"team 4",wins:5},{teamName:"team 5",wins:1}];
+//test obj
+//var teamWins = [{teamName:"team 1",wins:1},{teamName:"team 2",wins:2},{teamName:"team 3",wins:1},{teamName:"team 4",wins:5},{teamName:"team 5",wins:1}];
+// get array objs from local storage
+var teamArray = localStorage.getItem("NHL Info");
+teamArray = JSON.parse(teamArray);
+console.log(teamArray);
 
 var loadFirstChoices = function(dataObj) {
     option1El.innerHTML=dataObj[0].teamName;
@@ -39,15 +44,15 @@ var loadNextChoices = function(lastIndex,indexCount,dataObj) {
 var choiceHandler = function(event) {
     event.preventDefault();
 
-    var correctIndex = correctAnswer(teamWins);
+    var correctIndex = correctAnswer(teamArray);
     var choiceName = event.target.innerHTML;
-    var choiceIndex = getDataObjIndex(choiceName,teamWins);
+    var choiceIndex = getDataObjIndex(choiceName,teamArray);
     if (correctIndex == choiceIndex) {
         console.log("correct");
-        loadNextChoices(correctIndex,indexCounter, teamWins);
+        loadNextChoices(correctIndex,indexCounter, teamArray);
     } else {
         console.log("incorrect");
-        loadFirstChoices(teamWins);
+        loadFirstChoices(teamArray);
         indexCounter = 0;
         return;
     }
@@ -56,6 +61,6 @@ var choiceHandler = function(event) {
 };
 
 
-loadFirstChoices(teamWins);
+loadFirstChoices(teamArray);
 optionContainerEl.addEventListener("click",choiceHandler);
 
