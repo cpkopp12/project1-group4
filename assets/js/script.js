@@ -14,6 +14,7 @@ var teamArray = localStorage.getItem("NHL Info");
 teamArray = JSON.parse(teamArray);
 console.log(teamArray);
 
+//loads the fist two teams form the array
 var loadFirstChoices = function(dataObj) {
     option1TextEl.innerHTML=dataObj[0].teamName;
     option2TextEl.innerHTML=dataObj[1].teamName;
@@ -22,12 +23,14 @@ var loadFirstChoices = function(dataObj) {
     $("#image2").attr("src", "./assets/images/NHL/" + dataObj[1].teamName +".png");
     $("#image1").innerHTML = dataObj[0].teamName;
     $("#image2").innerHTML = dataObj[1].teamName;
+    //if tied, skip and load next choices
     if (dataObj[0].wins==dataObj[1].wins) {
         loadNextChoices(0, indexCounter, teamArray);
         indexCounter++;
     }
 };
 
+//from team name, get the index of team object within the dataObj array
 var getDataObjIndex = function(name,dataObj) {
     for (i = 0; i < dataObj.length; i++) {
         if (name == dataObj[i].teamName) {
@@ -36,16 +39,16 @@ var getDataObjIndex = function(name,dataObj) {
     }
 };
 
+//figure out which option is correct and return the index of the object
+//gets the team names from the current DOM elements, finds their indices based
+//on the team names inorder to compar the wins of each
 var correctAnswer = function(dataObj){
     var option1Name = document.querySelector("#option1Text").innerHTML;
     var option2Name = document.querySelector("#option2Text").innerHTML;
     var option1Index = getDataObjIndex(option1Name,dataObj);
     var option2Index = getDataObjIndex(option2Name,dataObj);
-    if (dataObj[option1Index].wins==dataObj[option2Index].wins) {
-        loadNextChoices(option1Index, indexCounter, teamArray);
-        indexCounter++;
-        return option1Index;
-    } else if (dataObj[option1Index].wins>dataObj[option2Index].wins){
+    //no chance of tie, handled in loadNextChoices function
+    if (dataObj[option1Index].wins>dataObj[option2Index].wins){
         return option1Index;
     } else {
         return option2Index;
@@ -57,6 +60,10 @@ var loadNextChoices = function(lastIndex,indexCount,dataObj) {
     option2TextEl.innerHTML = dataObj[indexCount+2].teamName;
     $("#image1").attr("src", "./assets/images/NHL/" + dataObj[lastIndex].teamName +".png");
     $("#image2").attr("src", "./assets/images/NHL/" + dataObj[indexCount+2].teamName +".png");
+    if (dataObj[lastIndex].wins==dataObj[indexCount+2].wins) {
+        indexCounter++;
+        loadNextChoices(lastIndex, indexCounter, teamArray);
+    }
 };
 
 var choiceHandler = function(event) {
