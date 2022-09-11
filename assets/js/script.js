@@ -7,12 +7,31 @@ var option2TextEl = document.querySelector("#option2Text");
 
 //keeps track of index for container handler function
 var indexCounter = 0;
-//test obj
-//var teamWins = [{teamName:"team 1",wins:1},{teamName:"team 2",wins:2},{teamName:"team 3",wins:1},{teamName:"team 4",wins:5},{teamName:"team 5",wins:1}];
+
 // get array objs from local storage
 var teamArray = localStorage.getItem("NHL Info");
 teamArray = JSON.parse(teamArray);
 console.log(teamArray);
+
+//function to generate random index 
+var randIndex = function(maxIndex) {
+    return Math.floor(Math.random()*(maxIndex+1));
+}; 
+
+//function to suffle array of API data
+var arrayShuffler = function(dataObj) {
+    var shuffledDataObj = [];
+    var mxIndex = dataObj.length - 1;
+    for (let i = 0; i <= mxIndex; i++) {
+        var currentMxIndex = mxIndex - i;
+        var randomIndex = randIndex(currentMxIndex);
+        var randomObj = dataObj[randomIndex];
+        shuffledDataObj.push(randomObj);
+        dataObj.splice(randomIndex,1);
+    }
+    return shuffledDataObj;
+};
+
 
 //loads the fist two teams form the array
 var loadFirstChoices = function(dataObj) {
@@ -25,7 +44,7 @@ var loadFirstChoices = function(dataObj) {
     $("#image2").innerHTML = dataObj[1].teamName;
     //if tied, skip and load next choices
     if (dataObj[0].wins==dataObj[1].wins) {
-        loadNextChoices(0, indexCounter, teamArray);
+        loadNextChoices(0, indexCounter, dataObj);
         indexCounter++;
     }
 };
@@ -55,15 +74,18 @@ var correctAnswer = function(dataObj){
     }
 };
 
+// loads next choices to DOM els, checks to see if teams are tied
+// if they are: add one to index counter and call the the method again,
+// skipping the tied team before it loads to DOM els
 var loadNextChoices = function(lastIndex,indexCount,dataObj) {
+    if (dataObj[lastIndex].wins==dataObj[indexCount+2].wins) {
+        indexCounter++;
+        loadNextChoices(lastIndex, indexCounter, dataObj);
+    }
     option1TextEl.innerHTML = dataObj[lastIndex].teamName;
     option2TextEl.innerHTML = dataObj[indexCount+2].teamName;
     $("#image1").attr("src", "./assets/images/NHL/" + dataObj[lastIndex].teamName +".png");
     $("#image2").attr("src", "./assets/images/NHL/" + dataObj[indexCount+2].teamName +".png");
-    if (dataObj[lastIndex].wins==dataObj[indexCount+2].wins) {
-        indexCounter++;
-        loadNextChoices(lastIndex, indexCounter, teamArray);
-    }
 };
 
 var choiceHandler = function(event) {
@@ -80,15 +102,15 @@ var choiceHandler = function(event) {
     } else {
         console.log("incorrect");
         indexCounter = 0;
+        teamArray = arrayShuffler(teamArray);
         loadFirstChoices(teamArray);
-        
         return;
     }
 
     indexCounter++;
 };
 
-
+teamArray = arrayShuffler(teamArray);
 loadFirstChoices(teamArray);
 optionContainerEl.addEventListener("click",choiceHandler);
 
