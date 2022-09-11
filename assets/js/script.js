@@ -94,7 +94,6 @@ var choiceHandler = function(event) {
     var correctIndex = correctAnswer(teamArray);
     var choiceContainerEl = event.target.parentElement;
     var choiceName = choiceContainerEl.children[0].innerHTML;
-    console.log(choiceName);
     var choiceIndex = getDataObjIndex(choiceName,teamArray);
     if (correctIndex == choiceIndex) {
         console.log("correct");
