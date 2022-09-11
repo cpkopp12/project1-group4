@@ -13,6 +13,7 @@ var gameContainerEl = document.querySelector("#game");
 var indexCounter = 0;
 
 var teamArray = [];
+var imgSrc;
 
 //function to generate random index 
 var randIndex = function(maxIndex) {
@@ -39,8 +40,8 @@ var loadFirstChoices = function(dataObj) {
     option1TextEl.innerHTML=dataObj[0].teamName;
     option2TextEl.innerHTML=dataObj[1].teamName;
     // Images added using JQuery
-    $("#image1").attr("src", "./assets/images/NHL/" + dataObj[0].teamName +".png");
-    $("#image2").attr("src", "./assets/images/NHL/" + dataObj[1].teamName +".png");
+    $("#image1").attr("src", imgSrc + dataObj[0].teamName +".png");
+    $("#image2").attr("src", imgSrc + dataObj[1].teamName +".png");
     $("#image1").innerHTML = dataObj[0].teamName;
     $("#image2").innerHTML = dataObj[1].teamName;
     //if tied, skip and load next choices
@@ -85,8 +86,8 @@ var loadNextChoices = function(lastIndex,indexCount,dataObj) {
     }
     option1TextEl.innerHTML = dataObj[lastIndex].teamName;
     option2TextEl.innerHTML = dataObj[indexCount+2].teamName;
-    $("#image1").attr("src", "./assets/images/NHL/" + dataObj[lastIndex].teamName +".png");
-    $("#image2").attr("src", "./assets/images/NHL/" + dataObj[indexCount+2].teamName +".png");
+    $("#image1").attr("src", imgSrc + dataObj[lastIndex].teamName +".png");
+    $("#image2").attr("src", imgSrc + dataObj[indexCount+2].teamName +".png");
 };
 
 var choiceHandler = function(event) {
@@ -117,6 +118,7 @@ var gameOptionHandler = function(event) {
         teamArray = localStorage.getItem("NHL Info");
         teamArray = JSON.parse(teamArray);
         teamArray = arrayShuffler(teamArray);
+        imgSrc = "./assets/images/NHL/" ;
         loadFirstChoices(teamArray);
         console.log(teamArray);
     }
@@ -124,6 +126,7 @@ var gameOptionHandler = function(event) {
         teamArray = localStorage.getItem("PL Info");
         teamArray = JSON.parse(teamArray);
         teamArray = arrayShuffler(teamArray);
+        imgSrc = "./assets/images/Premier League/";
         loadFirstChoices(teamArray);
         console.log(teamArray);
     }
