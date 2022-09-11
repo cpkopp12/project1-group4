@@ -11,30 +11,25 @@ var img2El = document.querySelector("#image2");
 var gameOptionContainerEl = document.querySelector("#select-game")
 var gameContainerEl = document.querySelector("#game");
 
-//DOM els: high score form
-var scoreForm = document.createElement("form");
-scoreForm.setAttribute("id","score-form");
-// submit score button
-var scoreSubmit = document.createElement("button");
-scoreSubmit.setAttribute("id","score-submit-btn");
-scoreSubmit.setAttribute("type","submit");
-scoreSubmit.textContent = "Submit";
-// high score input
-var scoreInput = document.createElement("input");
-scoreInput.setAttribute("type","text");
-scoreInput.setAttribute("name","score-input");
-scoreInput.setAttribute("placeholder", "Enter your initials.");
-//Append to form element
-scoreForm.appendChild(scoreInput);
-scoreForm.appendChild(scoreSubmit);
-
 //keeps track of index for container handler function
 var indexCounter = 0;
 
 //other global vars
 var teamArray = [];
 var imgSrc;
-var highScores = [];
+
+
+// var load scores
+var loadScores = function() {
+    var scs = localStorage.getItem("highScores");
+    if(scs == null) {
+        scs = [];
+    } else {
+        scs = JSON.parse(scs);
+    }
+    
+    return scs;
+}
 
 //go back btn handler
 var goBackHandler = function(event) {
@@ -58,46 +53,44 @@ var goBackHandler = function(event) {
 
     option1El.replaceChildren(option1TextEl,img1El);
     option2El.replaceChildren(option2TextEl,img2El);
+
+    option1El.removeEventListener("submit", (event) => { highScoreHandler(event,numCorrect,scoreInput.value);
+    goBackBtn.removeEventListener("click",goBackHandler);
+    clearScoresBtn.removeEventListener("click",clearScoresHandler); });
 };
 //clear scores btn handler
 var clearScoresHandler = function(event) {
     event.preventDefault();
-    highScores = [];
-    localStorage.setItem("highScores",JSON.stringify(highScores));
-    showHighScoreList();
+    localStorage.removeItem("highScores");
+    showHighScoreList([]);
 };
 
 //funtion to handle highscore input, has to also reset elements
-var highScoreHandler = function(event,newScore) {
+var highScoreHandler = function(event,newScore,initials) {
     event.preventDefault();
-    highScores = localStorage.getItem("highScores");
-    if (highScores === null) {
-        highScores = [];
-    } else {
-        highScores = JSON.parse(highScores);
-    }
+    var highScores = loadScores();
 
     var storeScore = {
-        initial : scoreInput.value,
+        initial : initials,
         quizScore : newScore
     }
     highScores.push(storeScore);
     localStorage.setItem("highScores",JSON.stringify(highScores));
-    showHighScoreList();
+    showHighScoreList(highScores);
     // need to add event listner we removed in last function showHighScoreForm
     //optionContainerEl.addEventListener("click",choiceHandler);
 };
 
 //highscore list
-var showHighScoreList = function() {
-    // create button to take us back to main page
+var showHighScoreList = function(scores) {
+    //set up buttons and listeners
     var goBackBtn = document.createElement("button");
     goBackBtn.setAttribute("id","go-back-btn");
     goBackBtn.innerHTML = "Go Back To Main Page";
     var clearScoresBtn = document.createElement("button");
     clearScoresBtn.setAttribute("id","clear-scores-btn");
     clearScoresBtn.innerHTML = "Clear High Scores";
-    
+
     goBackBtn.addEventListener("click",goBackHandler);
     clearScoresBtn.addEventListener("click",clearScoresHandler);
 
@@ -106,11 +99,10 @@ var showHighScoreList = function() {
     cardHeaderEl.setAttribute("class","card-header");
 
     //read from local storage and create ul
-    highScores = localStorage.getItem("highScores");
-    highScores = JSON.parse(highScores);
-    console.log(highScores);
+    //highScores = localStorage.getItem("highScores");
+    //highScores = JSON.parse(highScores);
     //check if empty
-    if (highScores == null || highScores.length == 0) {
+    if (scores.length == 0) {
         var noScoresEl = document.createElement("h1");
         noScoresEl.setAttribute("class","card-title");
         noScoresEl.innerHTML = "No highscores yet!";
@@ -118,15 +110,15 @@ var showHighScoreList = function() {
         return;
     } 
     
-
-    //Create list of previous scores, ul = scoreList, li = scoreListEl[i], same index as allScores
     var scoreList = document.createElement("ul");
     scoreList.setAttribute("class","list-group list-group-flush");
+    scoreList.setAttribute("id","score-list");
+    scoreList.replaceChildren();
     var scoreListEls = [];
-    for (let i = 0; i < highScores.length;i++) {
+    for (let i = 0; i < scores.length;i++) {
         scoreListEls[i] = document.createElement("li");
         scoreListEls[i].setAttribute("class","list-group-item");
-        scoreListEls[i].innerHTML = highScores[i].initial + ": " + highScores[i].quizScore + " correct"; 
+        scoreListEls[i].innerHTML = scores[i].initial + ": " + scores[i].quizScore + " correct"; 
         scoreList.appendChild(scoreListEls[i]);
     }
 
@@ -137,6 +129,24 @@ var showHighScoreList = function() {
 
 //highscore form
 var showHighScoreForm = function (numCorrect) {
+
+
+    //DOM els: high score form
+    var scoreForm = document.createElement("form");
+    scoreForm.setAttribute("id","score-form");
+    // submit score button
+    var scoreSubmit = document.createElement("button");
+    scoreSubmit.setAttribute("id","score-submit-btn");
+    scoreSubmit.setAttribute("type","submit");
+    scoreSubmit.textContent = "Submit";
+    // high score input
+    var scoreInput = document.createElement("input");
+    scoreInput.setAttribute("type","text");
+    scoreInput.setAttribute("name","score-input");
+    scoreInput.setAttribute("placeholder", "Enter your initials.");
+    //Append to form element
+    scoreForm.appendChild(scoreInput);
+    scoreForm.appendChild(scoreSubmit);
     //show user score
     var titleString = "Your score is: " + numCorrect;
     var scoreFormTitleEl = document.createElement("h1");
@@ -149,8 +159,9 @@ var showHighScoreForm = function (numCorrect) {
 
     //Same els as quiz, need to remove that eventListener
     optionContainerEl.removeEventListener("click",choiceHandler);
-    optionContainerEl.removeEventListener("click",choiceHandler);
-    option1El.addEventListener("submit", (event) => { highScoreHandler(event,numCorrect); });
+    option1El.addEventListener("submit", (event) => { highScoreHandler(event,numCorrect,scoreInput.value); });
+    var oldScores = loadScores();
+    showHighScoreList(oldScores);
 }
 
 //function to generate random index 
@@ -239,8 +250,9 @@ var choiceHandler = function(event) {
         console.log("correct");
         loadNextChoices(correctIndex,indexCounter, teamArray);
     } else {
+        optionContainerEl.removeEventListener("click",choiceHandler);
         showHighScoreForm(indexCounter);
-        showHighScoreList();
+        //showHighScoreList();
         //console.log("incorrect");
         //indexCounter = 0;
         //teamArray = arrayShuffler(teamArray);
@@ -278,6 +290,6 @@ var gameOptionHandler = function(event) {
 };
 
 //call methods and add event listeners
-
+highScores = loadScores();
 gameOptionContainerEl.addEventListener("click",gameOptionHandler);
 
