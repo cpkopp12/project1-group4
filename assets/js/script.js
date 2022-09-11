@@ -1,17 +1,18 @@
-//DOM els
+//DOM els: game
 var optionContainerEl = document.querySelector("#choices-container");
 var option1El = document.querySelector("#option1");
 var option2El = document.querySelector("#option2");
 var option1TextEl = document.querySelector("#option1Text");
 var option2TextEl = document.querySelector("#option2Text");
 
+//DOM els: select game
+var gameOptionContainerEl = document.querySelector("#select-game")
+var gameContainerEl = document.querySelector("#game");
+
 //keeps track of index for container handler function
 var indexCounter = 0;
 
-// get array objs from local storage
-var teamArray = localStorage.getItem("NHL Info");
-teamArray = JSON.parse(teamArray);
-console.log(teamArray);
+var teamArray = [];
 
 //function to generate random index 
 var randIndex = function(maxIndex) {
@@ -109,7 +110,29 @@ var choiceHandler = function(event) {
     indexCounter++;
 };
 
-teamArray = arrayShuffler(teamArray);
-loadFirstChoices(teamArray);
+var gameOptionHandler = function(event) {
+    event.preventDefault();
+
+    if(event.target.parentElement.id == "optionNHL") {
+        teamArray = localStorage.getItem("NHL Info");
+        teamArray = JSON.parse(teamArray);
+        teamArray = arrayShuffler(teamArray);
+        loadFirstChoices(teamArray);
+        console.log(teamArray);
+    }
+    if(event.target.parentElement.id == "optionPL") {
+        teamArray = localStorage.getItem("PL Info");
+        teamArray = JSON.parse(teamArray);
+        teamArray = arrayShuffler(teamArray);
+        loadFirstChoices(teamArray);
+        console.log(teamArray);
+    }
+    gameOptionContainerEl.style = "display:none;"
+    gameContainerEl.style= "display:block;"
+};
+
+//call methods and add event listeners
+
 optionContainerEl.addEventListener("click",choiceHandler);
+gameOptionContainerEl.addEventListener("click",gameOptionHandler)
 
