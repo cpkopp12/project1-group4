@@ -22,6 +22,10 @@ var loadFirstChoices = function(dataObj) {
     $("#image2").attr("src", "./assets/images/NHL/" + dataObj[1].teamName +".png");
     $("#image1").innerHTML = dataObj[0].teamName;
     $("#image2").innerHTML = dataObj[1].teamName;
+    if (dataObj[0].wins==dataObj[1].wins) {
+        loadNextChoices(0, indexCounter, teamArray);
+        indexCounter++;
+    }
 };
 
 var getDataObjIndex = function(name,dataObj) {
@@ -37,7 +41,11 @@ var correctAnswer = function(dataObj){
     var option2Name = document.querySelector("#option2Text").innerHTML;
     var option1Index = getDataObjIndex(option1Name,dataObj);
     var option2Index = getDataObjIndex(option2Name,dataObj);
-    if (dataObj[option1Index].wins>dataObj[option2Index].wins) {
+    if (dataObj[option1Index].wins==dataObj[option2Index].wins) {
+        loadNextChoices(option1Index, indexCounter, teamArray);
+        indexCounter++;
+        return option1Index;
+    } else if (dataObj[option1Index].wins>dataObj[option2Index].wins){
         return option1Index;
     } else {
         return option2Index;
@@ -64,8 +72,9 @@ var choiceHandler = function(event) {
         loadNextChoices(correctIndex,indexCounter, teamArray);
     } else {
         console.log("incorrect");
-        loadFirstChoices(teamArray);
         indexCounter = 0;
+        loadFirstChoices(teamArray);
+        
         return;
     }
 
