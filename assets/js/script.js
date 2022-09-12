@@ -1,4 +1,5 @@
 //DOM els: game
+var gameContainerEl = document.querySelector("#game");
 var optionContainerEl = document.querySelector("#choices-container");
 var option1El = document.querySelector("#option1");
 var option2El = document.querySelector("#option2");
@@ -8,11 +9,17 @@ var img1El = document.querySelector("#image1");
 var img2El = document.querySelector("#image2");
 
 //DOM els: select game
-var gameOptionContainerEl = document.querySelector("#select-game")
-var gameContainerEl = document.querySelector("#game");
+var gameOptionContainerEl = document.querySelector("#select-game");
+
+//HighScore DOM Els
+var highscoreContainerEl = document.querySelector("#highscore-container");
+var highscoreFormEl = document.querySelector("#highscore-form");
+var goBackBtn = document.querySelector("#go-back-btn");
+var highscoreListEl = document.querySelector("#highscore-list");
 
 //keeps track of index for container handler function
 var indexCounter = 0;
+var numCorrect = 0;
 
 //other global vars
 var teamArray = [];
@@ -36,132 +43,58 @@ var goBackHandler = function(event) {
     event.preventDefault();
     gameOptionContainerEl.setAttribute("style","display:block");
     gameContainerEl.setAttribute("style","display:none");
+    highscoreContainerEl.setAttribute("style","display:none");
     
-    //replace high score elements with quiz elements
-    option1TextEl = document.createElement("h1");
-    option1TextEl.innerHTML = "option 1";
-    option1TextEl.setAttribute("id","option1Text");
-    option1TextEl.setAttribute("class","card-header");
-    option1TextEl = document.createElement("h1");
-    option2TextEl.innerHTML = "option 2";
-    option1TextEl.setAttribute("id","option1Text");
-    option1TextEl.setAttribute("class","card-header");
-    img1El = document.createElement("img");
-    img1El.setAttribute("id","image1");
-    img2El = document.createElement("img");
-    img2El.setAttribute("id","image2");
-
-    option1El.replaceChildren(option1TextEl,img1El);
-    option2El.replaceChildren(option2TextEl,img2El);
-
-    option1El.removeEventListener("submit", (event) => { highScoreHandler(event,numCorrect,scoreInput.value);
-    goBackBtn.removeEventListener("click",goBackHandler);
-    clearScoresBtn.removeEventListener("click",clearScoresHandler); });
+    
 };
-//clear scores btn handler
-var clearScoresHandler = function(event) {
-    event.preventDefault();
-    localStorage.removeItem("highScores");
-    showHighScoreList([]);
-};
+
 
 //funtion to handle highscore input, has to also reset elements
-var highScoreHandler = function(event,newScore,initials) {
+var highscoreFormHandler = function(event) {
     event.preventDefault();
     var highScores = loadScores();
+    if(highScores==null||highScores.length==0){
+        highScores = [];
+    }
 
     var storeScore = {
-        initial : initials,
-        quizScore : newScore
+        initial : document.querySelector("#initial").value,
+        quizScore : numCorrect
     }
     highScores.push(storeScore);
     localStorage.setItem("highScores",JSON.stringify(highScores));
-    showHighScoreList(highScores);
-    // need to add event listner we removed in last function showHighScoreForm
-    //optionContainerEl.addEventListener("click",choiceHandler);
+    showHighScore();
+    document.querySelector("#initial").value = "";
+
+    
 };
 
-//highscore list
-var showHighScoreList = function(scores) {
-    //set up buttons and listeners
-    var goBackBtn = document.createElement("button");
-    goBackBtn.setAttribute("id","go-back-btn");
-    goBackBtn.innerHTML = "Go Back To Main Page";
-    var clearScoresBtn = document.createElement("button");
-    clearScoresBtn.setAttribute("id","clear-scores-btn");
-    clearScoresBtn.innerHTML = "Clear High Scores";
 
-    goBackBtn.addEventListener("click",goBackHandler);
-    clearScoresBtn.addEventListener("click",clearScoresHandler);
 
-    var cardHeaderEl = document.createElement("h1");
-    cardHeaderEl.innerHTML = "High Scores";
-    cardHeaderEl.setAttribute("class","card-header");
+//highscore form
+var showHighScore = function () {
+    gameContainerEl.setAttribute("style","display:none;");
+    gameOptionContainerEl.setAttribute("style","display:none;");
+    highscoreContainerEl.setAttribute("style","display:block;");
 
-    //read from local storage and create ul
-    //highScores = localStorage.getItem("highScores");
-    //highScores = JSON.parse(highScores);
-    //check if empty
-    if (scores.length == 0) {
-        var noScoresEl = document.createElement("h1");
-        noScoresEl.setAttribute("class","card-title");
-        noScoresEl.innerHTML = "No highscores yet!";
-        option2El.replaceChildren(cardHeaderEl,noScoresEl,goBackBtn); 
-        return;
-    } 
-    
-    var scoreList = document.createElement("ul");
-    scoreList.setAttribute("class","list-group list-group-flush");
-    scoreList.setAttribute("id","score-list");
-    scoreList.replaceChildren();
+    var scores = loadScores();
+
+    //show user score
+    var titleString = "Your score is: " + numCorrect;
+    document.querySelector("#highscore-form-header").innerHTML = titleString;
+
+    highscoreListEl.replaceChildren();
     var scoreListEls = [];
     for (let i = 0; i < scores.length;i++) {
         scoreListEls[i] = document.createElement("li");
         scoreListEls[i].setAttribute("class","list-group-item");
         scoreListEls[i].innerHTML = scores[i].initial + ": " + scores[i].quizScore + " correct"; 
-        scoreList.appendChild(scoreListEls[i]);
+        highscoreListEl.appendChild(scoreListEls[i]);
     }
 
-    option2El.replaceChildren(cardHeaderEl,scoreList,goBackBtn,clearScoresBtn);
     
+
     
-};
-
-//highscore form
-var showHighScoreForm = function (numCorrect) {
-
-
-    //DOM els: high score form
-    var scoreForm = document.createElement("form");
-    scoreForm.setAttribute("id","score-form");
-    // submit score button
-    var scoreSubmit = document.createElement("button");
-    scoreSubmit.setAttribute("id","score-submit-btn");
-    scoreSubmit.setAttribute("type","submit");
-    scoreSubmit.textContent = "Submit";
-    // high score input
-    var scoreInput = document.createElement("input");
-    scoreInput.setAttribute("type","text");
-    scoreInput.setAttribute("name","score-input");
-    scoreInput.setAttribute("placeholder", "Enter your initials.");
-    //Append to form element
-    scoreForm.appendChild(scoreInput);
-    scoreForm.appendChild(scoreSubmit);
-    //show user score
-    var titleString = "Your score is: " + numCorrect;
-    var scoreFormTitleEl = document.createElement("h1");
-    scoreFormTitleEl.setAttribute("class","card-header");
-    scoreFormTitleEl.innerHTML = titleString;
-
-    //form for initials
-    scoreForm.setAttribute("class","card-body");
-    option1El.replaceChildren(scoreFormTitleEl, scoreForm);
-
-    //Same els as quiz, need to remove that eventListener
-    optionContainerEl.removeEventListener("click",choiceHandler);
-    option1El.addEventListener("submit", (event) => { highScoreHandler(event,numCorrect,scoreInput.value); });
-    var oldScores = loadScores();
-    showHighScoreList(oldScores);
 }
 
 //function to generate random index 
@@ -248,10 +181,11 @@ var choiceHandler = function(event) {
     var choiceIndex = getDataObjIndex(choiceName,teamArray);
     if (correctIndex == choiceIndex) {
         console.log("correct");
+        numCorrect++;
         loadNextChoices(correctIndex,indexCounter, teamArray);
     } else {
-        optionContainerEl.removeEventListener("click",choiceHandler);
-        showHighScoreForm(indexCounter);
+        
+        showHighScore();
         //showHighScoreList();
         //console.log("incorrect");
         //indexCounter = 0;
@@ -266,6 +200,7 @@ var gameOptionHandler = function(event) {
     event.preventDefault();
 
     indexCounter = 0;
+    numCorrect = 0;
 
     if(event.target.parentElement.id == "optionNHL") {
         teamArray = localStorage.getItem("NHL Info");
@@ -285,11 +220,14 @@ var gameOptionHandler = function(event) {
     }
     gameOptionContainerEl.style = "display:none;"
     gameContainerEl.style= "display:block;"
-    optionContainerEl.addEventListener("click",choiceHandler);
+    
     
 };
 
 //call methods and add event listeners
 highScores = loadScores();
 gameOptionContainerEl.addEventListener("click",gameOptionHandler);
+optionContainerEl.addEventListener("click",choiceHandler);
+highscoreFormEl.addEventListener("submit",highscoreFormHandler);
+goBackBtn.addEventListener("click",goBackHandler);
 
