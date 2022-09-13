@@ -90,12 +90,8 @@ var showHighScore = function () {
         scoreListEls[i].setAttribute("class","list-group-item");
         scoreListEls[i].innerHTML = scores[i].initial + ": " + scores[i].quizScore + " correct"; 
         highscoreListEl.appendChild(scoreListEls[i]);
-    }
-
-    
-
-    
-}
+    }  
+};
 
 //function to generate random index 
 var randIndex = function(maxIndex) {
