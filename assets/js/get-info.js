@@ -2,7 +2,11 @@
 // FOR GROUP: WE CAN PROMPT USER FOR SEASON WHEN DOING EITHER QUIZ
 
 // NHL Data - from https://github.com/dword4/nhlapi#team-stats
-fetch("https://statsapi.web.nhl.com/api/v1/standings?season=20192020")
+function getNHLInfo(season){
+//Reformats NHL season to be compatible with statsapi before fetching
+season = (season-1).toString() + season.toString();
+console.log(season);
+fetch("https://statsapi.web.nhl.com/api/v1/standings?season=" + season)
 .then(response => response.json())
 .then(NHLData => extractNHLData(NHLData));
 
@@ -13,7 +17,7 @@ function extractNHLData(data) {
     for (i = 0; i < data.records.length; i++) {
         for (j = 0; j < data.records[i].teamRecords.length; j++) {
         array.push({
-          teamName: data.records[i].teamRecords[j].team.name,
+          name: data.records[i].teamRecords[j].team.name,
           wins: data.records[i].teamRecords[j].leagueRecord.wins,
           loses: data.records[i].teamRecords[j].leagueRecord.losses,
         })
@@ -21,7 +25,8 @@ function extractNHLData(data) {
    };
    localStorage.setItem("NHL Info", JSON.stringify(array));
 }
-var NHLArray = JSON.parse(localStorage.getItem("NHL Info"));
+}
+
 // Left in console.log to show what data is stored to global variable NHLArray
 //console.log(NHLArray);
 
@@ -30,6 +35,8 @@ var NHLArray = JSON.parse(localStorage.getItem("NHL Info"));
 // Premiere League Data - From https://rapidapi.com/api-sports/api/api-football/
 // FOR GROUP: WHEN USING, PLEASE SIGN UP AND REPLACE THE "'X-RapidAPI-Key'" VALUE WITH YOUR OWN KEY, OR USE THIS ONE SPARINGLY. 
 // It only takes 100 calls a day. Please spare my wallet :)
+function getPLInfo(season) {
+    console.log(season);
     const options = {
 	    method: 'GET',
 	    headers: {
@@ -38,7 +45,7 @@ var NHLArray = JSON.parse(localStorage.getItem("NHL Info"));
 	        }
     };
 
-fetch('https://api-football-v1.p.rapidapi.com/v3/standings?season=2020&league=39', options)
+fetch('https://api-football-v1.p.rapidapi.com/v3/standings?season='+ season + '&league=39', options)
 	.then(response => (response.json()))
     .then(PLData => extractPLData(PLData))
 	.catch(err => console.error(err));
@@ -59,7 +66,6 @@ fetch('https://api-football-v1.p.rapidapi.com/v3/standings?season=2020&league=39
        //console.log(array);
        localStorage.setItem("PL Info", JSON.stringify(array));
     }
-
-var PLArray = JSON.parse(localStorage.getItem("PL Info"));
+}
 // Left in console.log to show what data is stored to global variable PLArray
 //console.log(PLArray);
