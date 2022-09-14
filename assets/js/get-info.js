@@ -23,12 +23,13 @@ function extractNHLData(data) {
         })
     }
    };
+   console.log(array);
    localStorage.setItem("NHL Info", JSON.stringify(array));
 }
 }
 
 // Left in console.log to show what data is stored to global variable NHLArray
-//console.log(NHLArray);
+// console.log(NHLArray);
 
 // ---------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -63,9 +64,10 @@ fetch('https://api-football-v1.p.rapidapi.com/v3/standings?season='+ season + '&
               points: data.response[0].league.standings[0][i].points,
             })
         };
-       //console.log(array);
+       console.log(array);
        localStorage.setItem("PL Info", JSON.stringify(array));
     }
 }
-// Left in console.log to show what data is stored to global variable PLArray
+// Left
+
 //console.log(PLArray);
