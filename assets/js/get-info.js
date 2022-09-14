@@ -48,16 +48,16 @@ function getPLInfo(season) {
 
 fetch('https://api-football-v1.p.rapidapi.com/v3/standings?season='+ season + '&league=39', options)
 	.then(response => (response.json()))
-    .then(PLData => extractPLData(PLData))
+    .then(PLData => extractPLData(PLData, season))
 	.catch(err => console.error(err));
 
-    function extractPLData(data) {
-        //console.log(data);
+    function extractPLData(data, season) {
+        console.log(data);
         var array = [];
         // Stores Team Name, Wins, loses, draws, and points (Wins = 3, Draws = 1, Loses = 0)
         for (i = 0; i < data.response[0].league.standings[0].length; i++) {
             array.push({
-              teamName: data.response[0].league.standings[0][i].team.name,
+              name: data.response[0].league.standings[0][i].team.name,
               wins: data.response[0].league.standings[0][i].all.win,
               loses: data.response[0].league.standings[0][i].all.lose,
               draws: data.response[0].league.standings[0][i].all.draw,
@@ -66,8 +66,8 @@ fetch('https://api-football-v1.p.rapidapi.com/v3/standings?season='+ season + '&
         };
        console.log(array);
        localStorage.setItem("PL Info", JSON.stringify(array));
-    }
-}
-// Left
 
-//console.log(PLArray);
+}
+var PLArray = JSON.parse(localStorage.getItem("PL Info"));
+console.log(PLArray);
+}
