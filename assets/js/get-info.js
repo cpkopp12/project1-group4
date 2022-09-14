@@ -57,7 +57,7 @@ fetch('https://api-football-v1.p.rapidapi.com/v3/standings?season='+ season + '&
         // Stores Team Name, Wins, loses, draws, and points (Wins = 3, Draws = 1, Loses = 0)
         for (i = 0; i < data.response[0].league.standings[0].length; i++) {
             array.push({
-              name: data.response[0].league.standings[0][i].team.name,
+              teamName: data.response[0].league.standings[0][i].team.name,
               wins: data.response[0].league.standings[0][i].all.win,
               loses: data.response[0].league.standings[0][i].all.lose,
               draws: data.response[0].league.standings[0][i].all.draw,
