@@ -1,3 +1,5 @@
+/* BEGIN STYLE SHEET */
+/* Begin General Styles */
 * {
     margin: 0;
     padding: 0;
@@ -9,34 +11,15 @@ body {
     padding-top: 100px;
 }
 
-#select-game {
-    color: darkgrey;
-    text-align: center;
-}
-
-.card-title {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    font-weight:lighter;
-}
-
-.card-title:hover, button:hover {
-   color: cornflowerblue;
-}
-
 html {
     background-color: lightgray;
 }
 
-#season-button {
-    padding: 8px;
-    background-color: darkgrey;
-    margin: 5px;
-    border-style: none;
-    font-weight: lighter;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-}
+.selectable:hover {
+    border: 2px solid cornflowerblue;
+ }
 
-body h1 {
+ body h1 {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
@@ -67,12 +50,92 @@ body h1 {
     font-weight: lighter;
 }
 
+/* End general styles */
+
+/* Begin header styles */
+/* Style inspired by Module 5 starter code */
+.jumbotron {
+    text-align: center;
+    background-color: transparent;
+    color: black;
+    border-radius: 0;
+    border: 2px solid black;
+}
+
+.jumbotron h1 {
+    font-size: 64px;
+}
+/* End header styles */
+
+/* Begin main menu styles */
+.description {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding-bottom: 10px;
+}
+
+.description p {
+    color: black;
+}
+
+.description h3 {
+    color: black;
+}
+
+.card-title {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight:lighter;
+}
+
+#select-game {
+    color: darkgrey;
+    text-align: center;
+}
+
+.NHL {
+    background-image: url("../images/NHL_Logo.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 200px;
+}
+
+.PL {
+    background-image: url("../images/Premier_League_Logo.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 200px;
+    margin: 0 20px;
+}
+/* End main menu styles */
+
+/* Begin season selection styles */
+#season-button {
+    padding: 8px;
+    background-color: darkgrey;
+    margin: 5px;
+    border-style: none;
+    font-weight: lighter;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+/* End season selection styles */
+
+/* Begin high score styles */
+.scoreBtns {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+}
+
 .gb {
     border-style: none;
     background-color: lightgray;
     padding: 8px;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-weight: lighter;
+    margin: 0 10px;
 }
 
 .clr {
@@ -81,4 +144,6 @@ body h1 {
     padding: 8px;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-weight: lighter;
+    margin: 0 10px;
 }
+/* End high score styles */

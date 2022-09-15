@@ -5,7 +5,7 @@
 function getNHLInfo(season){
 //Reformats NHL season to be compatible with statsapi before fetching
 season = (season-1).toString() + season.toString();
-console.log(season);
+//console.log(season);
 fetch("https://statsapi.web.nhl.com/api/v1/standings?season=" + season)
 .then(response => response.json())
 .then(NHLData => extractNHLData(NHLData));
@@ -23,7 +23,7 @@ function extractNHLData(data) {
         })
     }
    };
-   console.log(array);
+   //console.log(array);
    localStorage.setItem("NHL Info", JSON.stringify(array));
 }
 }
@@ -52,7 +52,7 @@ fetch('https://api-football-v1.p.rapidapi.com/v3/standings?season='+ season + '&
 	.catch(err => console.error(err));
 
     function extractPLData(data, season) {
-        console.log(data);
+        //console.log(data);
         var array = [];
         // Stores Team Name, Wins, loses, draws, and points (Wins = 3, Draws = 1, Loses = 0)
         for (i = 0; i < data.response[0].league.standings[0].length; i++) {
@@ -64,10 +64,10 @@ fetch('https://api-football-v1.p.rapidapi.com/v3/standings?season='+ season + '&
               points: data.response[0].league.standings[0][i].points,
             })
         };
-       console.log(array);
+       //console.log(array);
        localStorage.setItem("PL Info", JSON.stringify(array));
 
 }
 var PLArray = JSON.parse(localStorage.getItem("PL Info"));
-console.log(PLArray);
+//console.log(PLArray);
 }

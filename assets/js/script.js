@@ -70,7 +70,7 @@ $("#season-button").on("click", function() {
     imgSrc = "./assets/images/NHL/" ;
     }
     loadFirstChoices(teamArray);
-    console.log(teamArray);
+    //console.log(teamArray);
 
     gameOptionContainerEl.style = "display:none;"
     gameContainerEl.style= "display:block;"
