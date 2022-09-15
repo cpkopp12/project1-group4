@@ -1,3 +1,4 @@
+<!--HTML-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,12 +6,142 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <!--Main style sheeet.-->
     <link rel="stylesheet" href="./assets/css/style.css" />
+    <!--Used bootstrap for some elements.-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!--Used fontawesome to include a framework other than bootstrap as per project requirements.-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous"/>
+<style>
+    body {
+        text-align: center;
+        background-color: transparent;
+    }
+</style>
 </head>
 <body>
-    
+    <!--Game header-->
+    <div id = "header" class = "jumbotron">
+        <h1 class = "game-header"> Winstreak: a Sports Trivia Game</h1>
+    </div>
+    <!--Elements that allow user to select game type.-->
+    <div class="container" id="select-game" style="display:block;">
+        <div id = "game-description" class = "description">
+            <p>Welcome to winstreak! We know how sports teams did in their leagues over the years. Do you?</p>
+            <p>Test your knowledge by seeing how many you can get in a row! Pick the team with the better record to increase your score.</p>
+            <p>Below you can select between two currently available leagues to quiz yourself: the National Hockey League and Premier League.</p>
+            <h3> SELECT LEAGUE:</h3>
+            </div>
+        <div id="game-select-container" class="row">
+            <div id="NHL-container" class="col-6">
+                <div class="card selectable" id="optionNHL">
+                    <div class = "NHL"></div>
+                </div>
+            </div>
+            <div id="PL-container" class="col-6">
+                <div class="card selectable" id="optionPL">
+                    <div class = "PL"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <!--Elements that allow user to select season.-->
+    <div class="container" id="select-season" style="display:none;">
+           <select name = season id = "season-select">
+                <option value="2022">2022</option>
+                <option value="2021">2021</option>
+                <option value="2020">2020</option>
+                <option value="2019">2019</option>
+                <option value="2018">2018</option>
+                <option value="2017">2017</option>
+                <option value="2016">2016</option>
+                <option value="2015">2015</option>
+                <option value="2014">2014</option>
+                <option value="2013">2013</option>
+                <option value="2012">2012</option>
+                <option value="2011">2011</option>
+                <option value="2010">2010</option>
+                <option value="2009">2009</option>
+                <option value="2008">2008</option>
+                <option value="2007">2007</option>
+                <option value="2006">2006</option>
+                <option value="2005">2005</option>
+                <option value="2004">2004</option>
+                <option value="2003">2003</option>
+                <option value="2002">2002</option>
+                <option value="2001">2001</option>
+                <option value="2000">2000</option>
+           </select>
+           <button type = "button" id = "season-button">Enter</button>
+    </div>
 
+    <!--Elements for game. Produce options based on game type.-->
+    <div class="container" id="game" style="display:none;">
+        <div id="choices-container" class="row">
+            <div id="option1-container" class="col-6">
+                <div class="card selectable" id="option1">
+                    <h1 class="card-header" id="option1Text">option 1</h1>
+                    <img id = "image1"></img>
+                </div>
+            </div>
+            <div id="option2-container" class="col-6">
+                <div class="card selectable" id="option2">
+                    <h1 class="card-header" id="option2Text">option 2</h1>
+                    <img id = "image2"></img>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Elements for high score entry and display.-->
+    <div class="container" id="highscore-container" style="display:none;">
+        <div id="highscore-row-div" class="row">
+            <!--Entry-->
+            <div id="highscore-form-col">
+                <div class="card" id="highscore-form-card">
+                    <h1 class="card-header" id="highscore-form-header">High Score Form</h1>
+                    <form class="card-body" id="highscore-form">
+                        <label for="initial">Enter Your Initials:</label><br>
+                        <input type="text" id="initial" name="initial"><br>
+                        <button class="mt-2" type="submit">Enter
+                            <i class="far fa-save"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <!--Display-->
+            <div id="highscore-list-col">
+                <div class="card" id="highscore-list-card">
+                    <h1 class="card-header">High Scores</h1>
+                    <div class="row card-body">
+                        <div id = "highscore-NHL" class = "col-6">
+                            <h2 class = "list-header">NHL High Scores</h2>
+                            <div id="highscore-list-NHL" class="list-group list-group-flush"></div>
+                        </div>
+                        <div id = "highscore-PL" class = "col-6">
+                            <h2 class = "list-header">Premier League High Scores</h2>
+                            <div id="highscore-list-PL" class="list-group list-group-flush"></div>
+                        </div>
+                        <div class = "scoreBtns">
+                            <button class="gb" type="button" id="go-back-btn">Back to Main Page</button>
+                            <button class="clr" type="button" id="clear-btn">Clear High Scores 
+                                <i class="far fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--External Scripts-->
+    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <!--Internal Scripts-->
+    <script src="./assets/js/get-info.js"></script>
     <script src="./assets/js/script.js"></script>
 </body>
 </html>
