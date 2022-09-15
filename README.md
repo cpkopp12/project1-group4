@@ -13,12 +13,29 @@ When given two choices displayed by the team logo, choose which team you think s
 ## Features:
 The game keeps track of highest score by storing the data of correct selections made by the user. When the game ends, the user is prompted to input their initials and their score is then displayed.
 
+## Built With
+* HTML (with bootstrap)
+* CSS (With external stylesheets, including FontAwesome).
+* Javascript (With external scripts such as moment.js)
+* JQuery 
+* Open Weather API (https://openweathermap.org/api)
+
 ## APIS used
 NHL Data
 https://github.com/dword4/nhlapi#team-stats
 
 Premiere League Data
 https://rapidapi.com/api-sports/api/api-football/
+
+## Screenshots
+![](/assets/images/screenshot1.PNG)
+![](/assets/images/screenshot2.PNG)
+![](/assets/images/screenshot3.PNG)
+![](/assets/images/screenshot4.PNG)
+![](/assets/images/screenshot5.PNG)
+
+## Application Link
+https://cpkopp12.github.io/project1-group4/
 
 ## Contributors:
 Dan Papert, Cameron Kopp, Leyla Arcasoy, Amanda Jorgensen

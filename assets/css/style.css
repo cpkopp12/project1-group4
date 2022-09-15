@@ -72,6 +72,7 @@ html {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
+    flex-direction: column;
     padding-bottom: 10px;
 }
 
